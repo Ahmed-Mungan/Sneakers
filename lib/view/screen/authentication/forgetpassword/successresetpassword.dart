@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
-import 'package:sneakers/controller/authentication/successresetpasswordcontroller.dart';
+import 'package:sneakers/controller/forgetpassword/successresetpasswordcontroller.dart';
 import 'package:sneakers/core/constant/color.dart';
 import 'package:sneakers/view/widget/authentication/custombuttonauth.dart';
 

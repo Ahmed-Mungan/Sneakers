@@ -5,9 +5,9 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:sneakers/controller/authentication/forgotcontroller.dart';
+import 'package:sneakers/controller/forgetpassword/forgotcontroller.dart';
 import 'package:sneakers/controller/authentication/signupcontroller.dart';
-import 'package:sneakers/controller/authentication/verifycontroller.dart';
+import 'package:sneakers/controller/forgetpassword/verifycontroller.dart';
 import 'package:sneakers/core/constant/color.dart';
 import 'package:sneakers/core/constant/imageasset.dart';
 import 'package:sneakers/view/widget/authentication/custombuttonauth.dart';
@@ -66,7 +66,7 @@ class VerifyCode extends StatelessWidget {
                 },
                 //runs when every textfield is filled
                 onSubmit: (String verificationCode) {
-                     controller.goToResetPassword() ; 
+                     controller.goToResetPassword(verificationCode) ; 
                 }, // end onSubmit
               ), 
              /* Text(

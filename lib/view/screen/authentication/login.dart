@@ -5,10 +5,12 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sneakers/controller/authentication/logincontroller.dart';
+import 'package:sneakers/core/class/statusrequest.dart';
 import 'package:sneakers/core/constant/color.dart';
 import 'package:sneakers/core/constant/imageasset.dart';
 import 'package:sneakers/core/functions/validinput.dart';
-import 'package:sneakers/view/screen/homepage.dart';
+import 'package:sneakers/view/screen/home.dart';
+
 import 'package:sneakers/view/widget/authentication/custombuttonauth.dart';
 import 'package:sneakers/view/widget/authentication/customtextbody.dart';
 import 'package:sneakers/view/widget/authentication/customtexttitle.dart';
@@ -24,7 +26,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   LoginControllerImp controller = Get.put(LoginControllerImp());
+Get.put(LoginControllerImp());
 
     return Scaffold(
       
@@ -40,6 +42,10 @@ class Login extends StatelessWidget {
                   fontFamily: 'Anton')),
         ),
         body: 
+       GetBuilder<LoginControllerImp>(builder: (controller) => 
+          
+          controller.statusRequest == StatusRequest.loading ?
+          Center( child:  Text("Loading ... "),) :
         Container(
           
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
@@ -102,7 +108,7 @@ class Login extends StatelessWidget {
                 CustomButtonAuth(
                   text: "Sign In",
                   onPressed: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                       controller.login();
                   },
                 ),
                 SizedBox(height: 10),
@@ -110,10 +116,22 @@ class Login extends StatelessWidget {
                  text2: "   Signup",
                   onTap:(){
                      controller.goToSignUp();
-                  })
+                  }
+                  ),
+                  SizedBox(height: 10,),
+                  CustomTextSignupAndSignin(text: "",
+                 text2: "   Enter as Guest",
+                  onTap:(){
+                      Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => HomePage()),
+  );
+                  }
+                  )
               ],
             ),
           ),
-        ));
+        ),)
+        );
   }
 }

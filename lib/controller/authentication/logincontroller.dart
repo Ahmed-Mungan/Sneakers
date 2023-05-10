@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sneakers/core/class/statusrequest.dart';
 import 'package:sneakers/core/constant/routes.dart';
+import 'package:sneakers/core/functions/handlingdatacontroller.dart';
+import 'package:sneakers/core/services/services.dart';
+import 'package:sneakers/data/datasource/remote/auth/login.dart';
 
 abstract class LoginController extends GetxController{
 
@@ -10,12 +14,16 @@ abstract class LoginController extends GetxController{
 }
 
 class LoginControllerImp extends LoginController{
+  LoginData loginData = LoginData(Get.find());
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
 late TextEditingController email;
 late TextEditingController password;  
 
 bool isshowPassword = true ;
+
+Myservices myServices  = Get.find();
+StatusRequest ? statusRequest;
 
 showPassword(){
 
@@ -24,15 +32,28 @@ showPassword(){
 }
 
   @override
-  login(){
-    var formdata = formstate.currentState;
-    if (formdata!.validate()){
-      print("Valid");
-      
+  login() async{
+ if (formstate.currentState!.validate()) {
+      statusRequest = StatusRequest.loading;
+      update( );
+    var response = await loginData.postdata(email.text, password.text);
+    print("=============================== Controller $response ");
+    statusRequest = handlingData(response);
+    if (StatusRequest.success == statusRequest) {
+      if (response['status'] == "success") {
+       // myServices.sharedPreferences.setString("id", response['data']['users_id']);
+        myServices.sharedPreferences.setString("email", response['data']['users_email']);
+        myServices.sharedPreferences.setString("username", response['data']['users_name']);
+        myServices.sharedPreferences.setString("phone", response['data']['users_phone']);
+        Get.offNamed(AppRoute.homepage);
+      } else {
+        Get.defaultDialog(title: "Warning ",middleText: "Email or Password Not Correct");
+        statusRequest = StatusRequest.failure ; 
+      }
     }
-    else {
-      print("Not Valid");
-    }    
+    update();
+    }
+     else {}
   }
    @override
   goToSignUp(){
@@ -41,6 +62,7 @@ showPassword(){
 
   @override
   void onInit(){
+    
     email = TextEditingController();
     password = TextEditingController();
 

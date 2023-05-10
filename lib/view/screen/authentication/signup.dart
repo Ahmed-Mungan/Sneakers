@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sneakers/controller/authentication/signupcontroller.dart';
+import 'package:sneakers/core/class/handlingdataview.dart';
+import 'package:sneakers/core/class/statusrequest.dart';
 import 'package:sneakers/core/constant/color.dart';
 import 'package:sneakers/core/constant/imageasset.dart';
 import 'package:sneakers/core/functions/validinput.dart';
@@ -36,7 +38,10 @@ class SignUp extends StatelessWidget {
                   fontFamily: 'Anton')),
         ),
         body: GetBuilder<SignUpControllerImp>(
-          builder: (controller )=>Container(
+          builder: (controller )=>
+          HandlingDataView ( statusRequest:   controller.statusRequest!,
+           widget :
+          Container(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
           child: Form(
             key: controller.formstate,
@@ -133,7 +138,7 @@ class SignUp extends StatelessWidget {
               ],
             ),
           ),
-        ))
+          )))
         );
   }
 }

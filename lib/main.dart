@@ -4,7 +4,6 @@ import 'package:sneakers/routes.dart';
 import 'package:sneakers/test.dart';
 import 'package:sneakers/view/screen/authentication/forgetpassword/forgot.dart';
 import 'package:sneakers/view/screen/authentication/login.dart';
-import 'package:sneakers/view/screen/homepage.dart';
 import 'core/constant/color.dart';
 import 'package:sneakers/bindings/initialbinding.dart';
 import 'core/services/services.dart';

@@ -13,7 +13,8 @@ import 'package:sneakers/view/screen/authentication/forgetpassword/resetpassword
 import 'package:sneakers/view/screen/authentication/signup.dart';
 import 'package:sneakers/view/screen/authentication/forgetpassword/successresetpassword.dart';
 import 'package:sneakers/view/screen/authentication/successsignup.dart';
-import 'package:sneakers/view/screen/homepage.dart';
+import 'package:sneakers/view/screen/home.dart';
+
 
 import 'view/screen/onboarding.dart';
 List<GetPage<dynamic>>? routes = [
@@ -33,4 +34,7 @@ GetPage(name: AppRoute.successResetPassword, page: ()=> const SuccessResetPasswo
 GetPage(name: AppRoute.successSignUp, page: ()=> const SuccessSignUp()) ,
 GetPage(name: AppRoute.checkemail, page: ()=> const CheckEmail()) ,
 GetPage(name: AppRoute.verifyCodeSignUp, page: ()=> const VerifyCodeSignUp()) ,
+GetPage(name: AppRoute.homepage, page: ()=> const HomePage()) ,
+//GetPage(name: AppRoute.homepage, page: ()=> homepage()) ,
+
 ];

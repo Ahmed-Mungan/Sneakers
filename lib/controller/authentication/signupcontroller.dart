@@ -19,7 +19,7 @@ late TextEditingController email;
 late TextEditingController phone;  
 late TextEditingController password;  
 
-late StatusRequest statusRequest ;
+ StatusRequest ? statusRequest = StatusRequest.none ;
 
   SignupData signupData = SignupData(Get.find());
 
@@ -29,12 +29,15 @@ late StatusRequest statusRequest ;
   signUp()async {  
     if (formstate.currentState!.validate()) {
       statusRequest = StatusRequest.loading;
+      update( );
     var response = await signupData.postdata(username.text, password.text, email.text, phone.text);
     print("=============================== Controller $response ");
     statusRequest = handlingData(response);
     if (StatusRequest.success == statusRequest) {
       if (response['STATUS'] == "SUCCESSFUL") {
-Get.offNamed(AppRoute.verifyCodeSignUp);
+        Get.offNamed(AppRoute.verifyCodeSignUp, arguments: {
+          "email" : email.text
+        });
       } else {
         Get.defaultDialog(title: "Warning ",middleText: "Phone Number or Email already exits ");
         statusRequest = StatusRequest.failure ; 

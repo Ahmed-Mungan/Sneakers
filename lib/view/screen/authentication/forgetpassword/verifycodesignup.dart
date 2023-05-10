@@ -5,10 +5,11 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:sneakers/controller/authentication/forgotcontroller.dart';
+import 'package:sneakers/controller/forgetpassword/forgotcontroller.dart';
 import 'package:sneakers/controller/authentication/signupcontroller.dart';
 import 'package:sneakers/controller/authentication/verifycodesignupcontroller.dart';
-import 'package:sneakers/controller/authentication/verifycontroller.dart';
+import 'package:sneakers/controller/forgetpassword/verifycontroller.dart';
+import 'package:sneakers/core/class/statusrequest.dart';
 import 'package:sneakers/core/constant/color.dart';
 import 'package:sneakers/core/constant/imageasset.dart';
 import 'package:sneakers/view/widget/authentication/custombuttonauth.dart';
@@ -25,7 +26,7 @@ class VerifyCodeSignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    VerifyCodeSignUpControllerImp controller = Get.put(VerifyCodeSignUpControllerImp());
+  Get.put(VerifyCodeSignUpControllerImp());
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -38,7 +39,11 @@ class VerifyCodeSignUp extends StatelessWidget {
                   color: Color.fromARGB(255, 9, 88, 161),
                   fontFamily: 'Anton')),
         ),
-        body: Container(
+        body: 
+         GetBuilder <VerifyCodeSignUpControllerImp >(builder: (controller) =>
+           controller.statusRequest == StatusRequest.loading ? 
+           Center(child: Text("Loading..."),) :
+            Container(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
           child: ListView(
             children: [
@@ -66,39 +71,15 @@ class VerifyCodeSignUp extends StatelessWidget {
                   //handle validation or checks here
                 },
                 //runs when every textfield is filled
-                onSubmit: (String verificationCode) {
-                     controller.goToSuccessSignUp() ; 
+                onSubmit: (String verificationCode)async {
+                    await controller.goToSuccessSignUp(verificationCode); 
                 }, // end onSubmit
-              ), 
-             /* Text(
-                "Forgot Password",
-                textAlign: TextAlign.end,
-              ),
-*/
-            
+              ),          
               SizedBox(height: 10),
 
-          /*  Row( 
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Text("Already Have An Account?"),
-              InkWell(
-                onTap: (){
-                  controller.goToSignIn();
-                },
-                
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(
-                      color: AppColor.primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-              )
-            ]
-              ),
-            */
             ],
           ),
-        ));
+        ) ),
+       );
   }
 }

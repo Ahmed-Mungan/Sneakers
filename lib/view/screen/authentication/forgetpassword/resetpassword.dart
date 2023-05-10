@@ -4,11 +4,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sneakers/controller/authentication/forgotcontroller.dart';
-import 'package:sneakers/controller/authentication/resetpasswordcontroller.dart';
+import 'package:sneakers/controller/forgetpassword/forgotcontroller.dart';
+import 'package:sneakers/controller/forgetpassword/resetpasswordcontroller.dart';
 import 'package:sneakers/controller/authentication/signupcontroller.dart';
+import 'package:sneakers/core/class/statusrequest.dart';
 import 'package:sneakers/core/constant/color.dart';
 import 'package:sneakers/core/constant/imageasset.dart';
+import 'package:sneakers/core/functions/validinput.dart';
 import 'package:sneakers/view/widget/authentication/custombuttonauth.dart';
 import 'package:sneakers/view/widget/authentication/customtextbody.dart';
 import 'package:sneakers/view/widget/authentication/customtexttitle.dart';
@@ -24,7 +26,7 @@ class ResetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      ResetPasswordControllerImp controller =   Get.put(ResetPasswordControllerImp());
+ Get.put(ResetPasswordControllerImp());
    // ResetPasswordControllerImp controller = Get.put(ResetPasswordControllerImp());
     return Scaffold(
         appBar: AppBar(
@@ -38,82 +40,62 @@ class ResetPassword extends StatelessWidget {
                   color: Color.fromARGB(255, 9, 88, 161),
                   fontFamily: 'Anton')),
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-          child: ListView(
-            children: [
-              //    CustomTextTitleAuth (
-              //    text : "Login"
-              //  ),
-              SizedBox(
-                height: 20,
-              ),
-              CustomTextBodyAuth(text: "Enter New Password"),
-              SizedBox(
-                height: 25,
-              ),
-              CustomTextformauth(
-                  valid: (val){
-                  
-                },
-                mycontroller: controller.password,
-                hintText: "Enter Your Password",
-                iconData: Icons.lock,
-                labeltext: "Password",
-                // mycontroller: ,
-              ),
-              CustomTextformauth(
-                  valid: (val){
-                  
-                },
-                mycontroller: controller.password,
-                hintText: "Re-Enter Your Password",
-                iconData: Icons.lock,
-                labeltext: "Password",
-                // mycontroller: ,
-              ),
-       
-          /*    CustomTextformauth(
-                mycontroller: controller.email,
-                hintText: "Enter Your Email",
-                iconData: Icons.email,
-                labeltext: "Email",
-                //   mycontroller: ,
-              ), */
-             /* Text(
-                "Forgot Password",
-                textAlign: TextAlign.end,
-              ),
-*/
-              CustomButtonAuth(
-                text: "Save",
-                onPressed: () {
-                  controller.goToSuccessResetPassword();
-                },
-              ),
-              SizedBox(height: 10),
+        body: GetBuilder<ResetPasswordControllerImp> (builder: (controller) =>
+        controller.statusRequest == StatusRequest.loading ?
+        const
+Center( child: Text ("Loading ..."),) 
+       :
 
-          /*  Row( 
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Text("Already Have An Account?"),
-              InkWell(
-                onTap: (){
-                  controller.goToSignIn();
-                },
-                
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(
-                      color: AppColor.primaryColor,
-                      fontWeight: FontWeight.bold),
+         Container(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+          child: Form(
+            key:  controller.formstate,
+            child: ListView(
+              children: [
+                //    CustomTextTitleAuth (
+                //    text : "Login"
+                //  ),
+                SizedBox(
+                  height: 20,
                 ),
-              )
-            ]
-              ),
-            */
-            ],
+                CustomTextBodyAuth(text: "Enter New Password"),
+                SizedBox(
+                  height: 25,
+                ),
+                CustomTextformauth(
+                       valid: (val) {
+                            return validInput(val!, 3, 40, "password");
+                          },
+                  mycontroller: controller.password,
+                  hintText: "Enter Your Password",
+                  iconData: Icons.lock,
+                  labeltext: "Password",
+                  // mycontroller: ,
+                ),
+                CustomTextformauth(
+                       valid: (val) {
+                            return validInput(val!, 3, 40, "password");
+                          },
+                  mycontroller: controller.repassword,
+                  hintText: "Re-Enter Your Password",
+                  iconData: Icons.lock,
+                  labeltext: "Password",
+                  // mycontroller: ,
+                ),
+                 
+          
+                CustomButtonAuth(
+                  text: "Save",
+                  onPressed: () {
+                    controller.goToSuccessResetPassword();
+                  },
+                ),
+                SizedBox(height: 10),
+          
+              ],
+            ),
           ),
-        ));
+        ),)
+        );
   }
 }
